@@ -1,3 +1,4 @@
+import zlib
 from .packet import Packet
 
 class DataPacket(Packet):
@@ -13,6 +14,9 @@ class DataPacket(Packet):
         
     def create_header(self):
         return f"{self.id};{self.origin_name};{self.destination_name};{self.error_control};{self.crc};{self.message}"
+    
+    def calculate_crc(self) -> str:
+        return format(zlib.crc32(self.message.encode()) & 0xFFFFFFFF, '08x')
     
     @classmethod
     def create_header_from_string(cls, header: str):

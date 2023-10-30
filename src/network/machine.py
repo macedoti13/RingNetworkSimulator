@@ -50,19 +50,32 @@ class Machine:
     def process_packet(self, packet: Packet):
         if packet.id == "1000":
             self.has_token = True
+            
         elif packet.id == "2000":
+            
             if packet.destination_name == self.nickname:
-                # calcula crc
-                # imprime log
-                # altera o estado (ack para crc ok, nack para crc errado)
-                # manda de volta 
-                pass
+                calculated_crc = packet.calculate_crc() # calcula crc
+                if calculated_crc == packet.crc:
+                    packet.error_control = "ACK" # altera o estado
+                    print("Mensagem recebida: " + packet.message) # imprime log
+                else:
+                    packet.error_control = "NACK" # altera o estado
+                    print("Erro na mensagem: " + packet.message) # imprime log
+                self.send_packet(packet) # manda de volta 
+            
             elif packet.origin_name == self.nickname:
-                # ler estado 
-                # se náo achou a maquina: tira msg da fila, passa o token, printa log 
-                # se teve erro: printa log, passa o token e mantém a msg na fila
-                # ack: printa log, passa o token e tira a msg da fila
-                pass
+                if packet.error_control == "ACK":
+                    print("Mensagem enviada: " + packet.message) # imprime log
+                    self.send_packet(self.token) # manda o token
+                    self.message_queue.pop(0) # tira da fila
+                elif packet.error_control == "NACK":
+                    print("Erro na mensagem: " + packet.message) # imprime log
+                    self.send_packet(self.token) # manda o token
+                elif packet.error_control == "maquinanaoexiste":
+                    print("Máquina não existe: " + packet.message) # imprime log
+                    self.send_packet(self.token) # manda o token
+                    self.message_queue.pop(0) # tira da fila
+                
             else:
                 # passa para o próximo
                 self.send_packet(packet)
