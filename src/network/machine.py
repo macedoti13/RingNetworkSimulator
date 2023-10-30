@@ -35,21 +35,7 @@ class Machine:
             packet = DataPacket.create_header_from_string(data.decode())
             
         return self.process_packet(packet)
-<<<<<<< Updated upstream
         
-=======
-    
-    def configure_machine(file_path: str) -> 'Machine':
-        with open(file_path, 'r') as f:
-            ip_port = f.readline().strip()
-            nickname = f.readline().strip()
-            time_token = f.readline().strip()
-            token = bool(f.readline().strip())
-
-        machine = Machine(ip_port, nickname, time_token, token)
-        return machine
-
->>>>>>> Stashed changes
     @classmethod
     def get_ip(cls, ip: str):
         return ip.split(":")[0]
@@ -60,20 +46,12 @@ class Machine:
     
     def close_socket(self):
         self.socket.close()
-<<<<<<< Updated upstream
-=======
-
-    def calculate_crc(self, message: str):
-        # TODO implement the method
-        pass
->>>>>>> Stashed changes
         
     def process_packet(self, packet: Packet):
         if packet.id == "1000":
             self.has_token = True
         elif packet.id == "2000":
             if packet.destination_name == self.nickname:
-<<<<<<< Updated upstream
                 # calcula crc
                 # imprime log
                 # altera o estado (ack para crc ok, nack para crc errado)
@@ -87,26 +65,4 @@ class Machine:
                 pass
             else:
                 # passa para o próximo
-=======
-                crc = self.calculate_crc(packet.message)
-                if crc == packet.crc:
-                    print(f"Message from {packet.origin_name}: {packet.message}")
-                    packet.error_control = 'ACK'
-                else:
-                    print(f"Message from {packet.origin_name} with error: original crc: {packet.crc}, calculated crc: {crc}")
-                self.send_packet(packet=packet)
-            elif packet.origin_name == self.nickname:
-                if packet.error_control == "maquinanaoexiste":
-                    self.message_queue.remove(packet)
-                    self.send_packet(packet=Packet('1000'))
-                    print('Error: Machine does not exist')
-                if packet.error_control == "NAK":
-                    self.send_packet(packet=Packet('1000'))
-                    print('Error: The target machine identified a CRC error')
-                if packet.error_control == "ACK":
-                    self.message_queue.remove(packet)
-                    self.send_packet(packet=Packet('1000'))
-                    print('Message sent successfully')
-            else:
->>>>>>> Stashed changes
                 self.send_packet(packet)
