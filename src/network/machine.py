@@ -66,15 +66,15 @@ class Machine:
             elif packet.origin_name == self.nickname:
                 if packet.error_control == "ACK":
                     print("Mensagem enviada: " + packet.message) # imprime log
-                    self.send_packet(self.token) # manda o token
                     self.message_queue.pop(0) # tira da fila
                 elif packet.error_control == "NACK":
                     print("Erro na mensagem: " + packet.message) # imprime log
-                    self.send_packet(self.token) # manda o token
                 elif packet.error_control == "maquinanaoexiste":
                     print("Máquina não existe: " + packet.message) # imprime log
-                    self.send_packet(self.token) # manda o token
                     self.message_queue.pop(0) # tira da fila
+                    
+                self.send_packet(self.token) # manda o token
+                self.has_token = False # não tem mais o token
                 
             else:
                 # passa para o próximo
