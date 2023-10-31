@@ -11,6 +11,10 @@ class Machine:
         self.nickname = nickname
         self.time_token = time_token
         self.has_token = has_token
+        
+        if self.has_token == True:
+            self.controls_token = True
+            
         self.message_queue = []
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         
@@ -45,6 +49,17 @@ class Machine:
     def get_port(cls, ip: str):
         return ip.split(":")[1]
     
+    @classmethod
+    def create_machine_from_file(cls, file_path: str):
+        with open(file_path, 'r') as file:
+            ip_and_port = file.readline().strip()
+            nickname = file.readline().strip()
+            time_token = file.readline().strip()
+            has_token_str = file.readline().strip()
+            has_token = True if has_token_str.lower() == "true" else False
+
+        return cls(ip_and_port, nickname, time_token, has_token)
+    
     def close_socket(self):
         self.socket.close()
         
@@ -73,7 +88,7 @@ class Machine:
                     packet.error_control = "NACK" # altera o estado
                     print("Erro na mensagem: " + packet.message) # imprime log
                 self.send_packet(packet) # manda de volta 
-            
+                
             elif packet.origin_name == self.nickname:
                 if packet.error_control == "ACK":
                     print("Mensagem enviada: " + packet.message) # imprime log
@@ -83,6 +98,14 @@ class Machine:
                 elif packet.error_control == "maquinanaoexiste":
                     print("Máquina não existe: " + packet.message) # imprime log
                     self.message_queue.pop(0) # tira da fila
+                
+            elif packet.destination_name == "TODOS":
+                calculated_crc = packet.calculate_crc() # calcula crc
+                if calculated_crc == packet.crc:
+                    print("Mensagem recebida: " + packet.message) # imprime log
+                else:
+                    print("Erro na mensagem: " + packet.message) # imprime log
+                    self.send_packet(packet)
                     
                 self.send_packet(self.token) # manda o token
                 self.has_token = False # não tem mais o token
