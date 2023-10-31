@@ -24,6 +24,7 @@ class Machine:
         self.message_queue.append(packet)
         
     def send_packet(self, packet: Packet):
+        # inserir erro no pacote com probabilidade
         self.socket.sendto(packet.header.encode(), (self.ip, self.port))
         
     def receive_packet(self):
@@ -47,9 +48,19 @@ class Machine:
     def close_socket(self):
         self.socket.close()
         
+    def run(self):
+        if self.has_token == True:
+            if len(self.message_queue) > 0:
+                packet = self.message_queue[0]
+                self.send_packet(packet)
+            else:
+                self.send_packet(self.token)
+                self.has_token = False
+        
     def process_packet(self, packet: Packet):
         if packet.id == "1000":
             self.has_token = True
+            self.run() # roda o algoritmo para ver se tem que mandar alguma coisa
             
         elif packet.id == "2000":
             
