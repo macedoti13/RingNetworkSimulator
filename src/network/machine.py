@@ -1,3 +1,4 @@
+import sys
 import time
 import socket
 import random
@@ -45,14 +46,16 @@ class Machine:
         
     
     def start(self):
+        # Define the terminate_event first
+        self.terminate_event = threading.Event()
+
         if self.controls_token:
             self.token_checker_thread = threading.Thread(target=self.check_token_status)
             self.token_checker_thread.start()
-            
-        self.terminate_event = threading.Event()
+
         self.listen_thread = threading.Thread(target=self.listen_for_packets)
         self.listen_thread.start()
-        
+
         # Adicionando a thread para user_interaction
         self.user_interaction_thread = threading.Thread(target=self.user_interaction)
         self.user_interaction_thread.start()
@@ -163,7 +166,7 @@ class Machine:
 
 
     def check_token_status(self):
-        while True:
+        while not self.terminate_event.is_set():  # Check for the terminate_event here
             time.sleep(1)  # Verifica o status do token a cada segundo (ajuste conforme necessário)
             
             if self.last_token_time is None:
@@ -189,10 +192,21 @@ class Machine:
 
             
     def stop_listening(self):
-        self.terminate_event.set()
-        self.listen_thread.join()
-        self.close_socket()
+        # Join the listening thread
+        try:
+            self.listen_thread.join(timeout=5)
+        except Exception as e:
+            print(f"Error joining listen_thread: {e}")
 
+        # If there's a token checker thread, join it too
+        if self.controls_token:
+            try:
+                self.token_checker_thread.join(timeout=5)
+            except Exception as e:
+                print(f"Error joining token_checker_thread: {e}")
+
+        # Close the socket
+        self.close_socket()
 
     def user_interaction(self):
         while not self.terminate_event.is_set():
@@ -208,7 +222,7 @@ class Machine:
                 if tipo == "2000":
                     destination_name = input("Digite o nome do destino: ")
                     message = input("Digite a mensagem: ")
-                    new_packet = DataPacket(destination_name=destination_name, message=message)
+                    new_packet = DataPacket(origin_name=self.nickname, destination_name=destination_name, error_control="maquinanaoexiste", message=message)
                     print(f"Pacote adicionado à fila para {destination_name} com a mensagem: {message}")
                 elif tipo == "1000":
                     new_packet = TokenPacket()
@@ -222,12 +236,8 @@ class Machine:
                 print("Desligando a máquina...")
                 self.terminate_event.set()
                 self.stop_listening()
-                # Se você tiver outras threads, certifique-se de juntá-las ou encerrá-las adequadamente aqui
-                if self.controls_token:
-                    self.token_checker_thread.join()
-                self.listen_thread.join()
                 print("Desligamento da máquina concluído.")
-                break
+                sys.exit(0)
 
             elif choice == "3":
                 print("Fila de mensagens atual:")
