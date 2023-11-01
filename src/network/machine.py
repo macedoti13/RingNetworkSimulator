@@ -43,7 +43,8 @@ class Machine:
         file_handler.setFormatter(formatter)
         self.logger.addHandler(file_handler)
         
-        # Thread setup
+    
+    def start(self):
         if self.controls_token:
             self.token_checker_thread = threading.Thread(target=self.check_token_status)
             self.token_checker_thread.start()
@@ -51,6 +52,10 @@ class Machine:
         self.terminate_event = threading.Event()
         self.listen_thread = threading.Thread(target=self.listen_for_packets)
         self.listen_thread.start()
+        
+        # Adicionando a thread para user_interaction
+        self.user_interaction_thread = threading.Thread(target=self.user_interaction)
+        self.user_interaction_thread.start()
 
 
     @staticmethod
