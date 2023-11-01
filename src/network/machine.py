@@ -7,28 +7,33 @@ from .data_packet import DataPacket
 from .token_packet import TokenPacket
 
 class Machine:
-    
-    def __init__(self, ip: str, nickname: str, time_token: str, has_token: bool = False, error_probability: float = 0.2, TIMEOUT_VALUE: int = 10, MINIMUM_TIME: int = 10) -> None:
-        self.ip = Machine.get_ip(ip)
-        self.port = int(Machine.get_port(ip))
+    def __init__(self, ip: str, nickname: str, time_token: str, has_token: bool = False, 
+                 error_probability: float = 0.2, TIMEOUT_VALUE: int = 10, MINIMUM_TIME: int = 10) -> None:
+        
+        # IP and Port extraction
+        self.ip, self.port = self._extract_ip_and_port(ip)
+        
+        # Basic attributes
         self.nickname = nickname
         self.time_token = time_token
-        self.controls_token = False
-        self.has_token = has_token
         self.error_probability = error_probability
         self.TIMEOUT_VALUE = TIMEOUT_VALUE 
         self.MINIMUM_TIME = MINIMUM_TIME
         
-        if self.has_token == True:
-            self.controls_token = True
-            
+        # Token control attributes
+        self.has_token = has_token
+        self.controls_token = self.has_token
+        self.last_token_time = None
+        
+        # Networking setup
         self.message_queue = []
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         
-        if self.has_token == True:
+        # Token generation if the machine starts with a token
+        if self.has_token:
             self.generate_token()
-            
-        self.last_token_time = None
+        
+        # Thread setup
         if self.controls_token:
             self.token_checker_thread = threading.Thread(target=self.check_token_status)
             self.token_checker_thread.start()
@@ -36,6 +41,12 @@ class Machine:
         self.terminate_event = threading.Event()
         self.listen_thread = threading.Thread(target=self.listen_for_packets)
         self.listen_thread.start()
+
+    @staticmethod
+    def _extract_ip_and_port(ip: str) -> tuple:
+        """Extract IP and port from a given string."""
+        ip_address, port = ip.split(":")
+        return ip_address, int(port)
         
     def generate_token(self):
         self.token = TokenPacket()
@@ -61,14 +72,6 @@ class Machine:
             
         return self.process_packet(packet)
         
-    @classmethod
-    def get_ip(cls, ip: str):
-        return ip.split(":")[0]
-    
-    @classmethod
-    def get_port(cls, ip: str):
-        return ip.split(":")[1]
-    
     @classmethod
     def create_machine_from_file(cls, file_path: str):
         with open(file_path, 'r') as file:
