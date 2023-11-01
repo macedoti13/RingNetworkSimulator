@@ -10,4 +10,5 @@ me = Machine(
     MINIMUM_TIME=5
 )
 
-me.start()
+ma = Machine.create_machine_from_file("machineA.txt")
+ma.start()
