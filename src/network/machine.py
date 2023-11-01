@@ -1,14 +1,16 @@
 import time
-import random
 import socket
+import random
+import logging
 import threading
 from .packet import Packet
 from .data_packet import DataPacket
 from .token_packet import TokenPacket
 
 class Machine:
+    
     def __init__(self, ip: str, nickname: str, time_token: str, has_token: bool = False, 
-                 error_probability: float = 0.2, TIMEOUT_VALUE: int = 10, MINIMUM_TIME: int = 10) -> None:
+                 error_probability: float = 0.2, TIMEOUT_VALUE: int = 10, MINIMUM_TIME: int = 5) -> None:
         
         # IP and Port extraction
         self.ip, self.port = self._extract_ip_and_port(ip)
@@ -32,6 +34,14 @@ class Machine:
         # Token generation if the machine starts with a token
         if self.has_token:
             self.generate_token()
+            
+        # Set up logging
+        self.logger = logging.getLogger('MachineLogger')
+        self.logger.setLevel(logging.DEBUG)
+        file_handler = logging.FileHandler('machine_log.log')
+        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+        file_handler.setFormatter(formatter)
+        self.logger.addHandler(file_handler)
         
         # Thread setup
         if self.controls_token:
@@ -56,7 +66,7 @@ class Machine:
     def send_packet(self, packet: Packet):
         if isinstance(packet, DataPacket) and random.random() < self.error_probability:
             packet.crc = packet.crc[:-1] + ('0' if packet.crc[-1] == '1' else '1')
-            print(f"Erro introduzido no pacote com destino: {packet.destination_name}")
+            self.logger.debug(f"Erro introduzido no pacote com destino: {packet.destination_name}")
         self.socket.sendto(packet.header.encode(), (self.ip, self.port))
         
     def receive_packet(self):
@@ -79,14 +89,14 @@ class Machine:
         if self.has_token == True:
             if len(self.message_queue) > 0:
                 packet = self.message_queue[0]
-                print("Segurando o token por " + self.time_token + " segundos...")
+                self.logger.debug(f"Segurando o token por {self.time_token} segundos...")
                 time.sleep(self.time_token)  
-                print("Mensagem enviada para: " + packet.destination_name)
+                self.logger.debug(f"Enviando mensagem para: {packet.destination_name}")
                 self.send_packet(packet)
             else:
-                print("Nenhuma mensagem para enviar, passando token...")
-                print("Segurando o token por " + self.time_token + " segundos...")
+                self.logger.debug(f"Nenhuma mensagem para enviar, segurando o token por {self.time_token} segundos...")
                 time.sleep(self.time_token)  
+                self.logger.debug(f"Passando o token...")
                 self.send_packet(self.token)
                 self.has_token = False
         
@@ -105,29 +115,29 @@ class Machine:
                 calculated_crc = packet.calculate_crc() # calcula crc
                 if calculated_crc == packet.crc:
                     packet.error_control = "ACK" # altera o estado
-                    print("Mensagem recebida: " + packet.message) # imprime log
+                    self.logger.debug(f"Mensagem recebida: {packet.message}")
                 else:
                     packet.error_control = "NACK" # altera o estado
-                    print("Erro na mensagem: " + packet.message) # imprime log
+                    self.logger.debug(f"Erro na mensagem: {packet.message}")
                 self.send_packet(packet) # manda de volta 
                 
             elif packet.origin_name == self.nickname:
                 if packet.error_control == "ACK":
-                    print("Mensagem enviada: " + packet.message) # imprime log
+                    self.logger.debug(f"Mensagem enviada: {packet.message}")
                     self.message_queue.pop(0) # tira da fila
                 elif packet.error_control == "NACK":
-                    print("Erro na mensagem: " + packet.message) # imprime log
+                    self.logger.debug(f"Erro na mensagem: {packet.message}")
                     self.send_packet(packet) # reenvia o pacote se houver erro
                 elif packet.error_control == "maquinanaoexiste":
-                    print("Máquina não existe: " + packet.message) # imprime log
+                    self.logger.debug(f"Máquina não existe: {packet.message}")
                     self.message_queue.pop(0) # tira da fila
                 
             elif packet.destination_name == "TODOS":
                 calculated_crc = packet.calculate_crc() # calcula crc
                 if calculated_crc == packet.crc:
-                    print("Mensagem recebida: " + packet.message) # imprime log
+                    self.logger.debug(f"Mensagem recebida: {packet.message}")
                 else:
-                    print("Erro na mensagem: " + packet.message) # imprime log
+                    self.logger.debug(f"Erro na mensagem: {packet.message}")
                     self.send_packet(packet)
                     
                 self.send_packet(self.token) # manda o token
@@ -147,11 +157,11 @@ class Machine:
             time_since_last_token = time.time() - self.last_token_time
             
             if time_since_last_token > self.TIMEOUT_VALUE:  # TIMEOUT_VALUE é o tempo máximo permitido sem ver o token
-                print("Token não visto por muito tempo. Gerando novo token.")
+                self.logger.debug(f"Token não visto por muito tempo. Gerando novo token.")
                 self.generate_token()
             
             elif time_since_last_token < self.MINIMUM_TIME:  # MINIMUM_TIME é o tempo mínimo esperado entre as passagens do token
-                print("Token visto muito rapidamente. Retirando token da rede.")
+                self.logger.debug(f"Token visto muito rapidamente. Retirando token da rede.")
                 self.has_token = False
 
     def listen_for_packets(self):
@@ -159,7 +169,7 @@ class Machine:
             try:
                 self.receive_packet()
             except Exception as e:
-                print(f"Error while receiving packet: {e}")
+                self.logger.debug(f"Erro ao receber packet: {e}")
             
     def stop_listening(self):
         self.terminate_event.set()
