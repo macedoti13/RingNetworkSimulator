@@ -32,6 +32,10 @@ class Machine:
         if self.controls_token:
             self.token_checker_thread = threading.Thread(target=self.check_token_status)
             self.token_checker_thread.start()
+            
+        self.terminate_event = threading.Event()
+        self.listen_thread = threading.Thread(target=self.listen_for_packets)
+        self.listen_thread.start()
         
     def generate_token(self):
         self.token = TokenPacket()
@@ -83,10 +87,14 @@ class Machine:
         if self.has_token == True:
             if len(self.message_queue) > 0:
                 packet = self.message_queue[0]
+                print("Segurando o token por " + self.time_token + " segundos...")
+                time.sleep(self.time_token)  
                 print("Mensagem enviada para: " + packet.destination_name)
                 self.send_packet(packet)
             else:
                 print("Nenhuma mensagem para enviar, passando token...")
+                print("Segurando o token por " + self.time_token + " segundos...")
+                time.sleep(self.time_token)  
                 self.send_packet(self.token)
                 self.has_token = False
         
@@ -153,3 +161,15 @@ class Machine:
             elif time_since_last_token < self.MINIMUM_TIME:  # MINIMUM_TIME é o tempo mínimo esperado entre as passagens do token
                 print("Token visto muito rapidamente. Retirando token da rede.")
                 self.has_token = False
+
+    def listen_for_packets(self):
+        while not self.terminate_event.is_set():
+            try:
+                self.receive_packet()
+            except Exception as e:
+                print(f"Error while receiving packet: {e}")
+            
+    def stop_listening(self):
+        self.terminate_event.set()
+        self.listen_thread.join()
+        self.close_socket()
