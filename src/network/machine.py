@@ -65,7 +65,6 @@ class Machine:
         packet = TokenPacket() if packet_type == "1000" else DataPacket.create_header_from_string(data.decode())
         return self.process_packet(packet)
             
-        
     @classmethod
     def create_machine_from_file(cls, file_path: str):
         with open(file_path, 'r') as file:
@@ -166,3 +165,46 @@ class Machine:
         self.terminate_event.set()
         self.listen_thread.join()
         self.close_socket()
+
+
+    def user_interaction(self):
+        while not self.terminate_event.is_set():
+            print("\nOptions:")
+            print("1. Add a new packet to the queue")
+            print("2. Shutdown the machine")
+            print("3. Print current message queue")
+            choice = input("Enter your choice: ")
+
+            if choice == "1":
+                print("What type of packet do you want to send? Either enter token (1000) or data (2000).")
+                type = input("Enter packet type: ")
+                if type == "2000":
+                    destination_name = input("Enter destination name: ")
+                    message = input("Enter message: ")
+                    new_packet = DataPacket(destination_name=destination_name, message=message)
+                elif type == "1000":
+                    new_packet = TokenPacket()
+                else:
+                    print("Invalid packet type. Please try again.")
+                
+                self.add_packet_to_queue(new_packet)
+                print(f"Packet added to the queue for {destination_name} with message: {message}")
+
+            elif choice == "2":
+                print("Shutting down the machine...")
+                self.terminate_event.set()
+                self.stop_listening()
+                # If you have other threads, make sure to join or terminate them properly here
+                if self.controls_token:
+                    self.token_checker_thread.join()
+                self.listen_thread.join()
+                print("Machine shutdown complete.")
+                break
+
+            elif choice == "3":
+                print("Current message queue:")
+                for packet in self.message_queue:
+                    print(packet.message)  # Adjust based on your packet structure
+
+            else:
+                print("Invalid choice. Please try again.")
