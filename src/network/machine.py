@@ -209,13 +209,14 @@ class Machine:
                     destination_name = input("Digite o nome do destino: ")
                     message = input("Digite a mensagem: ")
                     new_packet = DataPacket(destination_name=destination_name, message=message)
+                    print(f"Pacote adicionado à fila para {destination_name} com a mensagem: {message}")
                 elif tipo == "1000":
                     new_packet = TokenPacket()
+                    print(f"Token adicionado à fila.")
                 else:
                     print("Tipo de pacote inválido. Por favor, tente novamente.")
                 
                 self.add_packet_to_queue(new_packet)
-                print(f"Pacote adicionado à fila para {destination_name} com a mensagem: {message}")
 
             elif choice == "2":
                 print("Desligando a máquina...")
