@@ -52,28 +52,34 @@ class Machine:
         self.listen_thread = threading.Thread(target=self.listen_for_packets)
         self.listen_thread.start()
 
+
     @staticmethod
     def _extract_ip_and_port(ip: str) -> tuple:
         ip_address, port = ip.split(":")
         return ip_address, int(port)
+
         
     def generate_token(self):
         self.token = TokenPacket()
+
         
     def add_packet_to_queue(self, packet: Packet):
         self.message_queue.append(packet)
+
         
     def send_packet(self, packet: Packet):
         if isinstance(packet, DataPacket) and random.random() < self.error_probability:
             packet.crc = packet.crc[:-1] + ('0' if packet.crc[-1] == '1' else '1')
             self.logger.debug(f"Erro introduzido no pacote com destino: {packet.destination_name}")
         self.socket.sendto(packet.header.encode(), (self.ip, self.port))
+
         
     def receive_packet(self):
         data, _ = self.socket.recvfrom(1024)
         packet_type = Packet.get_packet_type(data.decode())
         packet = TokenPacket() if packet_type == "1000" else DataPacket.create_header_from_string(data.decode())
         return self.process_packet(packet)
+
             
     @classmethod
     def create_machine_from_file(cls, file_path: str):
@@ -81,9 +87,11 @@ class Machine:
             ip_and_port, nickname, time_token, has_token_str = [file.readline().strip() for _ in range(4)]
             has_token = has_token_str.lower() == "true"
         return cls(ip_and_port, nickname, time_token, has_token)
+
     
     def close_socket(self):
         self.socket.close()
+
         
     def run(self):
         if self.has_token == True:
@@ -99,6 +107,7 @@ class Machine:
                 self.logger.debug(f"Passando o token...")
                 self.send_packet(self.token)
                 self.has_token = False
+
         
     def process_packet(self, packet: Packet):
         if packet.id == "1000":
@@ -147,6 +156,7 @@ class Machine:
                 # passa para o próximo
                 self.send_packet(packet)
 
+
     def check_token_status(self):
         while True:
             time.sleep(1)  # Verifica o status do token a cada segundo (ajuste conforme necessário)
@@ -164,12 +174,14 @@ class Machine:
                 self.logger.debug(f"Token visto muito rapidamente. Retirando token da rede.")
                 self.has_token = False
 
+
     def listen_for_packets(self):
         while not self.terminate_event.is_set():
             try:
                 self.receive_packet()
             except Exception as e:
                 self.logger.debug(f"Erro ao receber packet: {e}")
+
             
     def stop_listening(self):
         self.terminate_event.set()
