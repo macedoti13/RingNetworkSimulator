@@ -44,7 +44,6 @@ class Machine:
 
     @staticmethod
     def _extract_ip_and_port(ip: str) -> tuple:
-        """Extract IP and port from a given string."""
         ip_address, port = ip.split(":")
         return ip_address, int(port)
         
@@ -55,32 +54,23 @@ class Machine:
         self.message_queue.append(packet)
         
     def send_packet(self, packet: Packet):
-        if isinstance(packet, DataPacket):
-            if random.random() < self.error_probability:
-                packet.crc = packet.crc[:-1] + ('0' if packet.crc[-1] == '1' else '1')
-                print(f"Erro introduzido no pacote com destino: {packet.destination_name}")
-                
+        if isinstance(packet, DataPacket) and random.random() < self.error_probability:
+            packet.crc = packet.crc[:-1] + ('0' if packet.crc[-1] == '1' else '1')
+            print(f"Erro introduzido no pacote com destino: {packet.destination_name}")
         self.socket.sendto(packet.header.encode(), (self.ip, self.port))
         
     def receive_packet(self):
-        data, addr = self.socket.recvfrom(1024)  # buffer size is 1024 bytes
-        type = Packet.get_packet_type(data.decode())
-        if type == "1000":
-            packet = TokenPacket()
-        elif type == "2000":
-            packet = DataPacket.create_header_from_string(data.decode())
-            
+        data, _ = self.socket.recvfrom(1024)
+        packet_type = Packet.get_packet_type(data.decode())
+        packet = TokenPacket() if packet_type == "1000" else DataPacket.create_header_from_string(data.decode())
         return self.process_packet(packet)
+            
         
     @classmethod
     def create_machine_from_file(cls, file_path: str):
         with open(file_path, 'r') as file:
-            ip_and_port = file.readline().strip()
-            nickname = file.readline().strip()
-            time_token = file.readline().strip()
-            has_token_str = file.readline().strip()
-            has_token = True if has_token_str.lower() == "true" else False
-
+            ip_and_port, nickname, time_token, has_token_str = [file.readline().strip() for _ in range(4)]
+            has_token = has_token_str.lower() == "true"
         return cls(ip_and_port, nickname, time_token, has_token)
     
     def close_socket(self):
