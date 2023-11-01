@@ -191,42 +191,42 @@ class Machine:
 
     def user_interaction(self):
         while not self.terminate_event.is_set():
-            print("\nOptions:")
-            print("1. Add a new packet to the queue")
-            print("2. Shutdown the machine")
-            print("3. Print current message queue")
-            choice = input("Enter your choice: ")
+            print("\nOpções:")
+            print("1. Adicionar um novo pacote à fila")
+            print("2. Desligar a máquina")
+            print("3. Mostrar fila de mensagens atual")
+            choice = input("Digite sua escolha: ")
 
             if choice == "1":
-                print("What type of packet do you want to send? Either enter token (1000) or data (2000).")
-                type = input("Enter packet type: ")
-                if type == "2000":
-                    destination_name = input("Enter destination name: ")
-                    message = input("Enter message: ")
+                print("Que tipo de pacote você deseja enviar? Digite token (1000) ou dados (2000).")
+                tipo = input("Digite o tipo do pacote: ")
+                if tipo == "2000":
+                    destination_name = input("Digite o nome do destino: ")
+                    message = input("Digite a mensagem: ")
                     new_packet = DataPacket(destination_name=destination_name, message=message)
-                elif type == "1000":
+                elif tipo == "1000":
                     new_packet = TokenPacket()
                 else:
-                    print("Invalid packet type. Please try again.")
+                    print("Tipo de pacote inválido. Por favor, tente novamente.")
                 
                 self.add_packet_to_queue(new_packet)
-                print(f"Packet added to the queue for {destination_name} with message: {message}")
+                print(f"Pacote adicionado à fila para {destination_name} com a mensagem: {message}")
 
             elif choice == "2":
-                print("Shutting down the machine...")
+                print("Desligando a máquina...")
                 self.terminate_event.set()
                 self.stop_listening()
-                # If you have other threads, make sure to join or terminate them properly here
+                # Se você tiver outras threads, certifique-se de juntá-las ou encerrá-las adequadamente aqui
                 if self.controls_token:
                     self.token_checker_thread.join()
                 self.listen_thread.join()
-                print("Machine shutdown complete.")
+                print("Desligamento da máquina concluído.")
                 break
 
             elif choice == "3":
-                print("Current message queue:")
+                print("Fila de mensagens atual:")
                 for packet in self.message_queue:
-                    print(packet.message)  # Adjust based on your packet structure
+                    print(packet.message)  # Ajuste conforme a estrutura do seu pacote
 
             else:
-                print("Invalid choice. Please try again.")
+                print("Escolha inválida. Por favor, tente novamente.")
