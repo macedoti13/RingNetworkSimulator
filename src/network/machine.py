@@ -39,7 +39,7 @@ class Machine:
         # Set up logging
         self.logger = logging.getLogger('MachineLogger')
         self.logger.setLevel(logging.DEBUG)
-        file_handler = logging.FileHandler('machine_log.log')
+        file_handler = logging.FileHandler(f'{self.nickname}_log.log')
         formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
         file_handler.setFormatter(formatter)
         self.logger.addHandler(file_handler)
