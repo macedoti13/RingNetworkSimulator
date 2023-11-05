@@ -190,7 +190,7 @@ class Machine:
 
     def check_token_status(self):
         while not self.terminate_event.is_set():  # Check for the terminate_event here
-            time.sleep(self.time_token)  
+            time.sleep(int(self.time_token))
             
             if self.last_token_time is None:
                 continue
