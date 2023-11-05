@@ -1,0 +1,26 @@
+2023-11-05 17:01:33,697 - DEBUG - Token visto muito rapidamente. Retirando token da rede.
+2023-11-05 17:01:36,701 - DEBUG - Nenhuma mensagem para enviar, segurando o token por 4 segundos...
+2023-11-05 17:01:36,702 - DEBUG - Erro ao receber packet: 'str' object cannot be interpreted as an integer
+2023-11-05 17:01:36,711 - DEBUG - Token visto muito rapidamente. Retirando token da rede.
+2023-11-05 17:01:37,716 - DEBUG - Token visto muito rapidamente. Retirando token da rede.
+2023-11-05 17:01:46,758 - DEBUG - Token não visto por muito tempo. Gerando novo token.
+2023-11-05 17:01:47,765 - DEBUG - Token não visto por muito tempo. Gerando novo token.
+2023-11-05 17:01:48,770 - DEBUG - Token não visto por muito tempo. Gerando novo token.
+2023-11-05 17:01:49,776 - DEBUG - Token não visto por muito tempo. Gerando novo token.
+2023-11-05 17:01:50,782 - DEBUG - Token não visto por muito tempo. Gerando novo token.
+2023-11-05 17:01:51,784 - DEBUG - Token não visto por muito tempo. Gerando novo token.
+2023-11-05 17:01:52,785 - DEBUG - Token não visto por muito tempo. Gerando novo token.
+2023-11-05 17:01:53,791 - DEBUG - Token não visto por muito tempo. Gerando novo token.
+2023-11-05 17:01:54,796 - DEBUG - Token não visto por muito tempo. Gerando novo token.
+2023-11-05 17:01:55,802 - DEBUG - Token não visto por muito tempo. Gerando novo token.
+2023-11-05 17:01:56,808 - DEBUG - Token não visto por muito tempo. Gerando novo token.
+2023-11-05 17:01:57,814 - DEBUG - Token não visto por muito tempo. Gerando novo token.
+2023-11-05 17:01:58,819 - DEBUG - Token não visto por muito tempo. Gerando novo token.
+2023-11-05 17:01:59,825 - DEBUG - Token não visto por muito tempo. Gerando novo token.
+2023-11-05 17:02:00,831 - DEBUG - Token não visto por muito tempo. Gerando novo token.
+2023-11-05 17:02:01,834 - DEBUG - Token não visto por muito tempo. Gerando novo token.
+2023-11-05 17:02:02,836 - DEBUG - Token não visto por muito tempo. Gerando novo token.
+2023-11-05 17:02:03,841 - DEBUG - Token não visto por muito tempo. Gerando novo token.
+2023-11-05 17:02:04,847 - DEBUG - Token não visto por muito tempo. Gerando novo token.
+2023-11-05 17:02:05,849 - DEBUG - Token não visto por muito tempo. Gerando novo token.
+2023-11-05 17:02:06,855 - DEBUG - Token não visto por muito tempo. Gerando novo token.

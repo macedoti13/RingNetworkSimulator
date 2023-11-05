@@ -61,12 +61,13 @@ class Machine:
         #self.user_interaction_thread = threading.Thread(target=self.user_interaction)
         #self.user_interaction_thread.start()
         
+        print(f"Máquina {self.nickname} iniciada.")
+        
         if self.has_token:
             time.sleep(int(self.time_token))
+            print("Dormindo por {} segundos".format(self.time_token))
             self.send_packet(self.token)
             print("token enviado")
-            
-        print(f"Máquina {self.nickname} iniciada.")
 
 
     @staticmethod
@@ -189,7 +190,7 @@ class Machine:
 
     def check_token_status(self):
         while not self.terminate_event.is_set():  # Check for the terminate_event here
-            time.sleep(1)  # Verifica o status do token a cada segundo (ajuste conforme necessário)
+            time.sleep(self.time_token)  
             
             if self.last_token_time is None:
                 continue
