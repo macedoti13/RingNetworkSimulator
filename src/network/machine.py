@@ -310,16 +310,29 @@ class Machine:
             elif packet.destination_name == "TODOS": # se o pacote é para todos
                 
                 self.logger.debug("Pacote para todos!")
-                calculated_crc = packet.calculate_crc() # calcula crc
                 
-                if calculated_crc == packet.crc:
-                    self.logger.debug(f"Mensagem recebida: {packet.message}")
-                else:
-                    self.logger.debug(f"Erro na mensagem: {packet.message}")
-                    self.send_packet(packet)
+                if packet.origin_name == self.nickname: # se o pacote foi enviado por mim para todos e está voltando
+                    self.logger.debug("Pacote de volta!")
+                    self.logger.debug(f"Mensagem contida no pacote: {packet.message}\n")
+                    self.logger.debug("pacote removido da fila")
+                    self.logger.debug("passando o token...")
+                    self.message_queue.pop(0) # tira da fila
+                    self.send_packet(self.token) # manda o token
+                    self.has_token = False # não tem mais o token
                     
-                self.send_packet(self.token) # manda o token
-                self.has_token = False # não tem mais o token
+                else:
+                    calculated_crc = packet.calculate_crc() # calcula crc
+                    if calculated_crc == packet.crc:
+                        self.logger.debug(f"Mensagem recebida com sucesso! Conteúdo: {packet.message}")
+                        packet.error_control = "ACK" # altera o estado
+                    else:
+                        self.logger.debug(f"Erro na mensagem recebida. CRC divergente!")
+                        packet.error_control = "NACK" # altera o estado
+                        
+                self.logger.debug("Enviando pacote de volta...\n")
+                self.logger.debug('-'*50+'\n')
+                packet.header = packet.create_header() # cria o header
+                self.send_packet(packet) # manda de volta 
                 
             else:
                 self.send_packet(packet) # passa para o próximo
