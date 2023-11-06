@@ -11,7 +11,7 @@ from .token_packet import TokenPacket
 class Machine:
     
     def __init__(self, ip: str, nickname: str, time_token: str, has_token: bool = False, 
-                 error_probability: float = 0.2, TIMEOUT_VALUE: int = 10, MINIMUM_TIME: int = 2) -> None:
+                 error_probability: float = 0.2, TIMEOUT_VALUE: int = 100, MINIMUM_TIME: int = 2, local_port: int = 6000) -> None:
         
         # IP and Port extraction
         self.ip, self.port = self._extract_ip_and_port(ip)
@@ -31,7 +31,7 @@ class Machine:
         # Networking setup
         self.message_queue = []
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.socket.bind(('127.0.0.1', 6000))
+        self.socket.bind(('127.0.0.1', local_port))
         
         # Token generation if the machine starts with a token
         if self.has_token:
@@ -60,14 +60,14 @@ class Machine:
         # Adicionando a thread para user_interaction
         #self.user_interaction_thread = threading.Thread(target=self.user_interaction)
         #self.user_interaction_thread.start()
-        
-        print(f"Máquina {self.nickname} iniciada.")
+        print(f"\nMáquina {self.nickname} iniciada.")
+        print('-'*50+'\n')
         
         if self.has_token:
+            print("Eu possuo o token, dormindo por {} segundos...".format(self.time_token))
             time.sleep(int(self.time_token))
-            print("Dormindo por {} segundos".format(self.time_token))
             self.send_packet(self.token)
-            print("token enviado")
+            self.has_token = False
 
 
     @staticmethod
@@ -77,36 +77,51 @@ class Machine:
 
         
     def generate_token(self):
+        print("novo token gerado")
         self.token = TokenPacket()
+        self.has_token = True
 
         
     def add_packet_to_queue(self, packet: Packet):
         self.message_queue.append(packet)
 
         
-    def send_packet(self, packet: Packet):
+    def send_packet(self, packet: Packet, add_error_chance: bool = False):
+        print()
+        if isinstance(packet, DataPacket):
+            print("Enviando pacote de dados...")
+        elif isinstance(packet, TokenPacket):
+            print("Enviando token...")
         if isinstance(packet, DataPacket) and random.random() < self.error_probability:
-            packet.crc = packet.crc[:-1] + ('0' if packet.crc[-1] == '1' else '1')
-            self.logger.debug(f"Erro introduzido no pacote com destino: {packet.destination_name}")
-            print("Erro introduzido no pacote com destino: {packet.destination_name}")
+            if add_error_chance == True:
+                packet.crc = packet.crc[:-1] + ('0' if packet.crc[-1] == '1' else '1')
+                self.logger.debug(f"Erro introduzido no pacote com destino: {packet.destination_name}")
+                print("Erro introduzido no pacote com destino: {packet.destination_name}")
+        time.sleep(3)
         self.socket.sendto(packet.header.encode(), (self.ip, self.port))
-        print("Pacote enviado.")
+        if isinstance(packet, DataPacket):
+            print("Pacote de dados enviado.")
+            print('-'*50+'\n')
+        elif isinstance(packet, TokenPacket):
+            print("Token enviado.\n")
+            print('-'*50+'\n')
 
         
     def receive_packet(self):
         data, _ = self.socket.recvfrom(1024)
-        print("Pacote recebido.")
         packet_type = Packet.get_packet_type(data.decode())
         packet = TokenPacket() if packet_type == "1000" else DataPacket.create_header_from_string(data.decode())
+        print("Pacote recebido. Iniciando processamento...\n")
+        time.sleep(3)
         return self.process_packet(packet)
 
             
     @classmethod
-    def create_machine_from_file(cls, file_path: str):
+    def create_machine_from_file(cls, file_path: str, local_port: int = 6000):
         with open(file_path, 'r') as file:
             ip_and_port, nickname, time_token, has_token_str = [file.readline().strip() for _ in range(4)]
             has_token = has_token_str.lower() == "true"
-        return cls(ip_and_port, nickname, time_token, has_token)
+        return cls(ip_and_port, nickname, time_token, has_token, local_port=local_port)
 
     
     def close_socket(self):
@@ -117,63 +132,74 @@ class Machine:
         if self.has_token == True:
             if len(self.message_queue) > 0:
                 packet = self.message_queue[0]
-                self.logger.debug(f"Segurando o token por {self.time_token} segundos...")
                 print(f"Segurando o token por {self.time_token} segundos...")
-                time.sleep(self.time_token)  
-                self.logger.debug(f"Enviando mensagem para: {packet.destination_name}")
+                time.sleep(int(self.time_token))  
                 print(f"Enviando mensagem para: {packet.destination_name}")
-                self.send_packet(packet)
+                self.send_packet(packet, add_error_chance=True)
             else:
-                self.logger.debug(f"Nenhuma mensagem para enviar, segurando o token por {self.time_token} segundos...")
-                print(f"Nenhuma mensagem para enviar, segurando o token por {self.time_token} segundos...")
-                time.sleep(self.time_token)  
-                self.logger.debug(f"Passando o token...")
-                print(f"Passando o token...")
+                print(f"Nenhuma mensagem para enviar, segurando o token por {self.time_token} segundos...\n")
+                print('-'*50+'\n')
+                time.sleep(int(self.time_token))  
                 self.send_packet(self.token)
                 self.has_token = False
 
         
     def process_packet(self, packet: Packet):
+
         if packet.id == "1000":
             self.last_token_time = time.time()
+            print("Token recebido. Momento atual: ", self.last_token_time)
             if not self.has_token:
                 self.has_token = True
+                self.token = packet
                 self.run()
             else:
                 pass
             
         elif packet.id == "2000":
-            
             if packet.destination_name == self.nickname:
+                print("Pacote para mim!")
                 calculated_crc = packet.calculate_crc() # calcula crc
                 if calculated_crc == packet.crc:
                     packet.error_control = "ACK" # altera o estado
-                    self.logger.debug(f"Mensagem recebida: {packet.message}")
-                    print(f"Mensagem recebida: {packet.message}")
+                    print(f"Mensagem recebida com sucesso! Conteúdo: {packet.message}")
                 else:
                     packet.error_control = "NACK" # altera o estado
-                    self.logger.debug(f"Erro na mensagem: {packet.message}")
-                    print(f"Erro na mensagem: {packet.message}")
+                    print(f"Erro na mensagem recebida. CRC divergente!")
+                    
+                time.sleep(2)
+                
+                print("Enviando pacote de volta...\n")
+                print('-'*50+'\n')
+                packet.header = packet.create_header() # cria o header
                 self.send_packet(packet) # manda de volta 
                 
             elif packet.origin_name == self.nickname:
+                print("Pacote de volta!")
+                print("Mensagem contida no pacote: ", packet.message + "\n")
                 if packet.error_control == "ACK":
-                    self.logger.debug(f"Mensagem enviada: {packet.message}")
-                    print(f"Mensagem enviada: {packet.message}")
+                    print(f"Mensagem enviada foi recebida pelo destino!")
                     self.message_queue.pop(0) # tira da fila
+                    print("pacote removido da fila")
+                    print("passando o token...")
+                    self.send_packet(self.token) # manda o token
+                    self.has_token = False # não tem mais o token
+                    
                 elif packet.error_control == "NACK":
-                    self.logger.debug(f"Erro na mensagem: {packet.message}")
-                    print(f"Erro na mensagem: {packet.message}")
+                    print(f"Ocorreu um erro na mensagem")
                     self.send_packet(packet) # reenvia o pacote se houver erro
+                    
                 elif packet.error_control == "maquinanaoexiste":
-                    self.logger.debug(f"Máquina não existe: {packet.message}")
-                    print(f"Máquina não existe: {packet.message}")
+                    print(f"Máquina não foi encontrada na rede.")
                     self.message_queue.pop(0) # tira da fila
+                    print("enviando o token...")
+                    self.send_packet(self.token) # manda o token
+                    self.has_token = False # não tem mais o token
                 
             elif packet.destination_name == "TODOS":
+                print("Pacote para todos!")
                 calculated_crc = packet.calculate_crc() # calcula crc
                 if calculated_crc == packet.crc:
-                    self.logger.debug(f"Mensagem recebida: {packet.message}")
                     print(f"Mensagem recebida: {packet.message}")
                 else:
                     self.logger.debug(f"Erro na mensagem: {packet.message}")
@@ -198,13 +224,16 @@ class Machine:
             time_since_last_token = time.time() - self.last_token_time
             
             if time_since_last_token > self.TIMEOUT_VALUE:  # TIMEOUT_VALUE é o tempo máximo permitido sem ver o token
-                self.logger.debug(f"Token não visto por muito tempo. Gerando novo token.")
+                print('\n'+'-'*50+'\n')
                 print(f"Token não visto por muito tempo. Gerando novo token.")
+                print('\n'+'-'*50+'\n')
                 self.generate_token()
+                self.last_token_time = time.time()
             
             elif time_since_last_token < self.MINIMUM_TIME:  # MINIMUM_TIME é o tempo mínimo esperado entre as passagens do token
-                self.logger.debug(f"Token visto muito rapidamente. Retirando token da rede.")
+                print('\n'+'-'*50+'\n')
                 print(f"Token visto muito rapidamente. Retirando token da rede.")
+                print('\n'+'-'*50+'\n')
                 self.has_token = False
 
 
@@ -213,7 +242,6 @@ class Machine:
             try:
                 self.receive_packet()
             except Exception as e:
-                self.logger.debug(f"Erro ao receber packet: {e}")
                 print(f"Erro ao receber packet: {e}")
 
             
