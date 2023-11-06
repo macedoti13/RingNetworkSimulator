@@ -1,0 +1,260 @@
+2023-11-06 11:03:11,324 - DEBUG - Máquina bob iniciada.
+2023-11-06 11:03:11,324 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:03:11,324 - DEBUG - Máquina bob possui o token. Dormindo por 5 segundos...
+
+2023-11-06 11:03:16,329 - DEBUG - Enviando token...
+2023-11-06 11:03:16,330 - DEBUG - Token enviado.
+2023-11-06 11:03:16,330 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:03:21,338 - DEBUG - Pacote recebido. Iniciando processamento...
+
+2023-11-06 11:03:21,338 - DEBUG - Pacote para mim!
+2023-11-06 11:03:21,338 - DEBUG - Mensagem recebida com sucesso! Conteúdo: oi bob 1
+2023-11-06 11:03:21,339 - DEBUG - Enviando pacote de volta...
+
+2023-11-06 11:03:21,339 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:03:21,339 - DEBUG - Enviando pacote de dados...
+2023-11-06 11:03:21,339 - DEBUG - Pacote de dados enviado.
+2023-11-06 11:03:21,339 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:03:21,340 - DEBUG - Pacote recebido. Iniciando processamento...
+
+2023-11-06 11:03:21,340 - DEBUG - Token recebido.
+2023-11-06 11:03:21,340 - DEBUG - segurando o token por 5 segundos...
+2023-11-06 11:03:26,345 - DEBUG - enviando mensagem...
+2023-11-06 11:03:26,346 - DEBUG - Enviando pacote de dados...
+2023-11-06 11:03:26,346 - DEBUG - Erro introduzido no pacote com destino: ace
+2023-11-06 11:03:26,346 - DEBUG - Pacote de dados enviado.
+2023-11-06 11:03:26,346 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:03:26,347 - DEBUG - Pacote recebido. Iniciando processamento...
+
+2023-11-06 11:03:26,347 - DEBUG - Pacote de volta!
+2023-11-06 11:03:26,347 - DEBUG - Mensagem contida no pacote: oi ace 1
+
+2023-11-06 11:03:26,347 - DEBUG - Mensagem enviada foi recebida pelo destino!
+2023-11-06 11:03:26,347 - DEBUG - pacote removido da fila
+2023-11-06 11:03:26,348 - DEBUG - passando o token...
+2023-11-06 11:03:26,348 - DEBUG - Enviando token...
+2023-11-06 11:03:26,348 - DEBUG - Token enviado.
+2023-11-06 11:03:26,348 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:03:31,354 - DEBUG - Pacote recebido. Iniciando processamento...
+
+2023-11-06 11:03:31,355 - DEBUG - Pacote para mim!
+2023-11-06 11:03:31,355 - DEBUG - Mensagem recebida com sucesso! Conteúdo: oi bob 2
+2023-11-06 11:03:31,355 - DEBUG - Enviando pacote de volta...
+
+2023-11-06 11:03:31,355 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:03:31,355 - DEBUG - Enviando pacote de dados...
+2023-11-06 11:03:31,355 - DEBUG - Pacote de dados enviado.
+2023-11-06 11:03:31,355 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:03:31,356 - DEBUG - Pacote recebido. Iniciando processamento...
+
+2023-11-06 11:03:31,356 - DEBUG - Token recebido.
+2023-11-06 11:03:31,356 - DEBUG - segurando o token por 5 segundos...
+2023-11-06 11:03:36,359 - DEBUG - enviando mensagem...
+2023-11-06 11:03:36,359 - DEBUG - Enviando pacote de dados...
+2023-11-06 11:03:36,359 - DEBUG - Pacote de dados enviado.
+2023-11-06 11:03:36,359 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:03:36,360 - DEBUG - Pacote recebido. Iniciando processamento...
+
+2023-11-06 11:03:36,360 - DEBUG - Pacote de volta!
+2023-11-06 11:03:36,360 - DEBUG - Mensagem contida no pacote: oi ace 2
+
+2023-11-06 11:03:36,361 - DEBUG - Mensagem enviada foi recebida pelo destino!
+2023-11-06 11:03:36,361 - DEBUG - pacote removido da fila
+2023-11-06 11:03:36,361 - DEBUG - passando o token...
+2023-11-06 11:03:36,361 - DEBUG - Enviando token...
+2023-11-06 11:03:36,361 - DEBUG - Token enviado.
+2023-11-06 11:03:36,361 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:03:41,367 - DEBUG - Pacote recebido. Iniciando processamento...
+
+2023-11-06 11:03:41,367 - DEBUG - Pacote para mim!
+2023-11-06 11:03:41,367 - DEBUG - Mensagem recebida com sucesso! Conteúdo: oi bob 3
+2023-11-06 11:03:41,367 - DEBUG - Enviando pacote de volta...
+
+2023-11-06 11:03:41,367 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:03:41,367 - DEBUG - Enviando pacote de dados...
+2023-11-06 11:03:41,367 - DEBUG - Pacote de dados enviado.
+2023-11-06 11:03:41,367 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:03:41,367 - DEBUG - Pacote recebido. Iniciando processamento...
+
+2023-11-06 11:03:41,367 - DEBUG - Token recebido.
+2023-11-06 11:03:41,367 - DEBUG - segurando o token por 5 segundos...
+2023-11-06 11:03:46,372 - DEBUG - enviando mensagem...
+2023-11-06 11:03:46,373 - DEBUG - Enviando pacote de dados...
+2023-11-06 11:03:46,373 - DEBUG - Pacote de dados enviado.
+2023-11-06 11:03:46,373 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:03:46,375 - DEBUG - Pacote recebido. Iniciando processamento...
+
+2023-11-06 11:03:46,375 - DEBUG - Pacote de volta!
+2023-11-06 11:03:46,375 - DEBUG - Mensagem contida no pacote: oi ace 3
+
+2023-11-06 11:03:46,375 - DEBUG - Mensagem enviada foi recebida pelo destino!
+2023-11-06 11:03:46,375 - DEBUG - pacote removido da fila
+2023-11-06 11:03:46,375 - DEBUG - passando o token...
+2023-11-06 11:03:46,375 - DEBUG - Enviando token...
+2023-11-06 11:03:46,375 - DEBUG - Token enviado.
+2023-11-06 11:03:46,376 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:03:51,381 - DEBUG - Pacote recebido. Iniciando processamento...
+
+2023-11-06 11:03:51,382 - DEBUG - Pacote para mim!
+2023-11-06 11:03:51,382 - DEBUG - Mensagem recebida com sucesso! Conteúdo: Fala bob, vamos tomar um cafe? 
+2023-11-06 11:03:51,382 - DEBUG - Enviando pacote de volta...
+
+2023-11-06 11:03:51,382 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:03:51,382 - DEBUG - Enviando pacote de dados...
+2023-11-06 11:03:51,383 - DEBUG - Pacote de dados enviado.
+2023-11-06 11:03:51,383 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:03:51,383 - DEBUG - Pacote recebido. Iniciando processamento...
+
+2023-11-06 11:03:51,384 - DEBUG - Token recebido.
+2023-11-06 11:03:51,384 - DEBUG - segurando o token por 5 segundos...
+2023-11-06 11:03:56,389 - DEBUG - enviando mensagem...
+2023-11-06 11:03:56,389 - DEBUG - Enviando pacote de dados...
+2023-11-06 11:03:56,390 - DEBUG - Pacote de dados enviado.
+2023-11-06 11:03:56,390 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:03:56,391 - DEBUG - Pacote recebido. Iniciando processamento...
+
+2023-11-06 11:03:56,391 - DEBUG - Pacote de volta!
+2023-11-06 11:03:56,391 - DEBUG - Mensagem contida no pacote: Oi ace, vamos sim! Qual cafeteria? 
+
+2023-11-06 11:03:56,391 - DEBUG - Mensagem enviada foi recebida pelo destino!
+2023-11-06 11:03:56,392 - DEBUG - pacote removido da fila
+2023-11-06 11:03:56,392 - DEBUG - passando o token...
+2023-11-06 11:03:56,392 - DEBUG - Enviando token...
+2023-11-06 11:03:56,392 - DEBUG - Token enviado.
+2023-11-06 11:03:56,392 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:04:01,398 - DEBUG - Pacote recebido. Iniciando processamento...
+
+2023-11-06 11:04:01,398 - DEBUG - Token recebido.
+2023-11-06 11:04:01,398 - DEBUG - Nenhuma mensagem para enviar, segurando o token por 5 segundos...
+
+2023-11-06 11:04:01,398 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:04:06,403 - DEBUG - Enviando token...
+2023-11-06 11:04:06,403 - DEBUG - Token enviado.
+2023-11-06 11:04:06,404 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:04:11,410 - DEBUG - Pacote recebido. Iniciando processamento...
+
+2023-11-06 11:04:11,411 - DEBUG - Pacote para mim!
+2023-11-06 11:04:11,411 - DEBUG - Mensagem recebida com sucesso! Conteúdo: Vamos no starbucks do barra! 
+2023-11-06 11:04:11,411 - DEBUG - Enviando pacote de volta...
+
+2023-11-06 11:04:11,411 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:04:11,411 - DEBUG - Enviando pacote de dados...
+2023-11-06 11:04:11,412 - DEBUG - Pacote de dados enviado.
+2023-11-06 11:04:11,412 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:04:11,412 - DEBUG - Pacote recebido. Iniciando processamento...
+
+2023-11-06 11:04:11,413 - DEBUG - Token recebido.
+2023-11-06 11:04:11,413 - DEBUG - Nenhuma mensagem para enviar, segurando o token por 5 segundos...
+
+2023-11-06 11:04:11,413 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:04:16,418 - DEBUG - Enviando token...
+2023-11-06 11:04:16,419 - DEBUG - Token enviado.
+2023-11-06 11:04:16,419 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:04:21,425 - DEBUG - Pacote recebido. Iniciando processamento...
+
+2023-11-06 11:04:21,425 - DEBUG - Token recebido.
+2023-11-06 11:04:21,425 - DEBUG - Nenhuma mensagem para enviar, segurando o token por 5 segundos...
+
+2023-11-06 11:04:21,425 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:04:26,430 - DEBUG - Enviando token...
+2023-11-06 11:04:26,431 - DEBUG - Token enviado.
+2023-11-06 11:04:26,431 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:04:31,437 - DEBUG - Pacote recebido. Iniciando processamento...
+
+2023-11-06 11:04:31,437 - DEBUG - Token recebido.
+2023-11-06 11:04:31,437 - DEBUG - segurando o token por 5 segundos...
+2023-11-06 11:04:36,438 - DEBUG - enviando mensagem...
+2023-11-06 11:04:36,438 - DEBUG - Enviando pacote de dados...
+2023-11-06 11:04:36,439 - DEBUG - Pacote de dados enviado.
+2023-11-06 11:04:36,439 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:04:36,440 - DEBUG - Pacote recebido. Iniciando processamento...
+
+2023-11-06 11:04:36,440 - DEBUG - Pacote de volta!
+2023-11-06 11:04:36,440 - DEBUG - Mensagem contida no pacote: Blz te encontro la! 
+
+2023-11-06 11:04:36,440 - DEBUG - Máquina não foi encontrada na rede.
+2023-11-06 11:04:36,440 - DEBUG - Enviando o token...
+2023-11-06 11:04:36,440 - DEBUG - Enviando token...
+2023-11-06 11:04:36,440 - DEBUG - Token enviado.
+2023-11-06 11:04:36,440 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:04:41,447 - DEBUG - Pacote recebido. Iniciando processamento...
+
+2023-11-06 11:04:41,447 - DEBUG - Token recebido.
+2023-11-06 11:04:41,447 - DEBUG - Nenhuma mensagem para enviar, segurando o token por 5 segundos...
+
+2023-11-06 11:04:41,448 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:04:46,449 - DEBUG - Enviando token...
+2023-11-06 11:04:46,449 - DEBUG - Token enviado.
+2023-11-06 11:04:46,450 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:04:51,452 - DEBUG - Pacote recebido. Iniciando processamento...
+
+2023-11-06 11:04:51,453 - DEBUG - Token recebido.
+2023-11-06 11:04:51,453 - DEBUG - Nenhuma mensagem para enviar, segurando o token por 5 segundos...
+
+2023-11-06 11:04:51,453 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:04:56,458 - DEBUG - Enviando token...
+2023-11-06 11:04:56,458 - DEBUG - Token enviado.
+2023-11-06 11:04:56,459 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:05:01,465 - DEBUG - Pacote recebido. Iniciando processamento...
+
+2023-11-06 11:05:01,465 - DEBUG - Token recebido.
+2023-11-06 11:05:01,466 - DEBUG - Nenhuma mensagem para enviar, segurando o token por 5 segundos...
+
+2023-11-06 11:05:01,466 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:05:06,471 - DEBUG - Enviando token...
+2023-11-06 11:05:06,471 - DEBUG - Token enviado.
+2023-11-06 11:05:06,471 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:05:11,477 - DEBUG - Pacote recebido. Iniciando processamento...
+
+2023-11-06 11:05:11,478 - DEBUG - Token recebido.
+2023-11-06 11:05:11,478 - DEBUG - Nenhuma mensagem para enviar, segurando o token por 5 segundos...
+
+2023-11-06 11:05:11,478 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:05:16,483 - DEBUG - Enviando token...
+2023-11-06 11:05:16,484 - DEBUG - Token enviado.
+2023-11-06 11:05:16,484 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:05:21,489 - DEBUG - Pacote recebido. Iniciando processamento...
+
+2023-11-06 11:05:21,489 - DEBUG - Token recebido.
+2023-11-06 11:05:21,490 - DEBUG - Nenhuma mensagem para enviar, segurando o token por 5 segundos...
+
+2023-11-06 11:05:21,490 - DEBUG - --------------------------------------------------
+
+2023-11-06 11:05:26,491 - DEBUG - Enviando token...
+2023-11-06 11:05:26,493 - DEBUG - Erro ao receber packet: [Errno 9] Bad file descriptor

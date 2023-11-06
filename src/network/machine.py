@@ -105,6 +105,7 @@ class Machine:
         if isinstance(packet, DataPacket) and random.random() < self.error_probability:
             if add_error_chance == True:
                 packet.crc = packet.crc[:-1] + ('0' if packet.crc[-1] == '1' else '1')
+                packet.header = packet.create_header()
                 self.logger.debug(f"Erro introduzido no pacote com destino: {packet.destination_name}")
         self.socket.sendto(packet.header.encode(), (self.ip, self.port))
         
