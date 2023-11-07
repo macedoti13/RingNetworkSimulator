@@ -99,6 +99,7 @@ class Machine:
             time.sleep(int(self.time_token))
             self.send_packet(self.token)
             self.has_token = False
+            self.last_token_time = datetime.datetime.now()
 
 
 
@@ -124,6 +125,7 @@ class Machine:
         """        
         self.token = TokenPacket()
         self.has_token = True
+        self.last_token_time = datetime.datetime.now()
 
         
         
@@ -241,6 +243,9 @@ class Machine:
                 time.sleep(int(self.time_token))  
                 self.send_packet(self.token) # manda o token
                 self.has_token = False
+                self.last_token_time = datetime.datetime.now()
+        else:
+            pass
 
 
         
@@ -297,6 +302,7 @@ class Machine:
                     
                     self.send_packet(self.token) # manda o token
                     self.has_token = False # não tem mais o token
+                    self.last_token_time = datetime.datetime.now() # atualiza o tempo do último token
                     
                 elif packet.error_control == "NACK": # se a mensagem não foi recebida com sucesso
                     
@@ -304,6 +310,7 @@ class Machine:
                     self.logger.debug("Mantendo o pacote na fila e passando o token adiante...")
                     self.send_packet(self.token)
                     self.has_token = False
+                    self.last_token_time = datetime.datetime.now()
                     
                 elif packet.error_control == "maquinanaoexiste": # se a máquina não existe
                     
@@ -314,6 +321,7 @@ class Machine:
                     
                     self.send_packet(self.token) # manda o token
                     self.has_token = False # não tem mais o token
+                    self.last_token_time = datetime.datetime.now() # atualiza o tempo do último token
                 
             elif packet.destination_name == "TODOS": # se o pacote é para todos
                 
@@ -327,6 +335,7 @@ class Machine:
                     self.message_queue.pop(0) # tira da fila
                     self.send_packet(self.token) # manda o token
                     self.has_token = False # não tem mais o token
+                    self.last_token_time = datetime.datetime.now() # atualiza o tempo do último token
                     
                 else:
                     calculated_crc = packet.calculate_crc() # calcula crc
@@ -345,42 +354,39 @@ class Machine:
             else:
                 self.logger.debug(f"Pacote não é para mim. Enviado por {packet.origin_name} para {packet.destination_name}. Passando o pacote adiante...\n")
                 self.send_packet(packet) # passa para o próximo
-
-
-
+   
+            
     def check_token_status(self):
         """
         Processo que checa se o token está sendo passado corretamente. Esse processo ocorre em uma thread separada, que só é iniciada se a máquina controla o token.
         """        
+        time_waiting = 0
         
-        while not self.terminate_event.is_set():  # Check for the terminate_event here
-            time.sleep(int(self.time_token))
+        while not self.terminate_event.is_set():
             
-            if self.last_token_time is None:
-                continue
-            
-            time_since_last_token = (datetime.datetime.now() - self.last_token_time).total_seconds()
-            
-            if time_since_last_token > self.TIMEOUT_VALUE:  # TIMEOUT_VALUE é o tempo máximo permitido sem ver o token
+            if self.has_token == False:
+                print(f"\n{datetime.datetime.now()} - sem token")
+                time.sleep(0.1)
+                while time_waiting < self.TIMEOUT_VALUE and self.has_token == False:
+                    time_waiting = (datetime.datetime.now() - self.last_token_time).total_seconds()
+                    print(f"Tempo esperando: {time_waiting} segundos, momento atual: {datetime.datetime.now()}")
+                    time.sleep(0.1)
+                if time_waiting >= self.TIMEOUT_VALUE:
+                    self.logger.debug('\n'+'-'*50+'\n'+f"Token não visto por muito tempo. Gerando novo token."+'\n'+'-'*50+'\n')
+                    self.generate_token()
+                    self.send_packet(self.token)
+                    self.has_token = False
+                    self.last_token_time = datetime.datetime.now()
+                    pass
                 
-                self.logger.debug('\n'+'-'*50+'\n')
-                self.logger.debug(f"Token não visto por muito tempo. Gerando novo token.")
-                self.logger.debug('\n'+'-'*50+'\n')
-                
-                self.generate_token()
-                self.last_token_time = datetime.datetime.now()
-                pass
-
-            elif time_since_last_token < self.MINIMUM_TIME:  # MINIMUM_TIME é o tempo mínimo esperado entre as passagens do token
-                
-                self.logger.debug('\n'+'-'*50+'\n')
-                self.logger.debug(f"Token visto muito rapidamente. Retirando token da rede.")
-                self.logger.debug('\n'+'-'*50+'\n')
-                
-                self.has_token = False
-                pass
-
-
+                elif time_waiting < self.MINIMUM_TIME:
+                    print(f"muito rapido: {datetime.datetime.now()}")
+                    
+                    self.logger.debug('\n'+'-'*50+'\n'+f"Token visto muito rapidamente. Retirando token da rede."+'\n'+'-'*50+'\n')
+                    self.has_token = False
+                    self.token = None
+                    pass
+                    
 
     def listen_for_packets(self):
         """
@@ -393,7 +399,6 @@ class Machine:
             except Exception as e:
                 self.logger.debug(f"Erro ao receber packet: {e}")
 
-            
             
     def stop_listening(self):
         """
@@ -433,6 +438,7 @@ class Machine:
             print("1. Adicionar um novo pacote à fila")
             print("2. Desligar a máquina")
             print("3. Mostrar fila de mensagens atual")
+            print("4. Remover token da rede")
             choice = input("Digite sua escolha: ")
 
             if choice == "1":
@@ -463,6 +469,13 @@ class Machine:
                 print("Fila de mensagens atual:")
                 for packet in self.message_queue:
                     print(packet.message) 
+                    
+            elif choice == "4":
+                if self.has_token:
+                    print("Removendo token da rede...")
+                    self.has_token = False
+                    self.token = None
+                    print("Token removido da rede.")
 
             else:
                 print("Escolha inválida. Por favor, tente novamente.")
