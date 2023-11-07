@@ -257,14 +257,14 @@ class Machine:
                 self.token = packet
                 self.run() # roda o processo de segurar o token e enviar mensagens
             else:
-                pass
+                self.send_packet(self.token)
             
         # recebeu um pacote de dados
         elif packet.id == "2000":
             
             if packet.destination_name == self.nickname: # se o pacote é para mim
                 
-                self.logger.debug("Pacote para mim!")
+                self.logger.debug(f"Pacote para mim! Recebido de {packet.origin_name}")
                 calculated_crc = packet.calculate_crc() # calcula crc
                 if calculated_crc == packet.crc:
                     packet.error_control = "ACK" # altera o estado
@@ -280,7 +280,7 @@ class Machine:
                 
             elif packet.origin_name == self.nickname: # se o pacote foi enviado por mim e está voltando
                  
-                self.logger.debug("Pacote de volta!")
+                self.logger.debug(f"Pacote de volta! Foi enviado por mim para {packet.destination_name}")
                 self.logger.debug(f"Mensagem contida no pacote: {packet.message}\n")
                 
                 if packet.error_control == "ACK": # se a mensagem foi recebida com sucesso
@@ -337,6 +337,7 @@ class Machine:
                 self.send_packet(packet) # manda de volta 
                 
             else:
+                self.logger.debug(f"Pacote não é para mim. Enviado por {packet.origin_name} para {packet.destination_name}. Passando o pacote adiante...\n")
                 self.send_packet(packet) # passa para o próximo
 
 
