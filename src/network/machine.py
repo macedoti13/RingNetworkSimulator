@@ -365,12 +365,12 @@ class Machine:
         while not self.terminate_event.is_set():
             
             if self.has_token == False:
-                print(f"\n{datetime.datetime.now()} - sem token")
                 time.sleep(0.1)
+                
                 while time_waiting < self.TIMEOUT_VALUE and self.has_token == False:
                     time_waiting = (datetime.datetime.now() - self.last_token_time).total_seconds()
-                    print(f"Tempo esperando: {time_waiting} segundos, momento atual: {datetime.datetime.now()}")
                     time.sleep(0.1)
+                    
                 if time_waiting >= self.TIMEOUT_VALUE:
                     self.logger.debug('\n'+'-'*50+'\n'+f"Token não visto por muito tempo. Gerando novo token."+'\n'+'-'*50+'\n')
                     self.generate_token()
@@ -380,7 +380,6 @@ class Machine:
                     pass
                 
                 elif time_waiting < self.MINIMUM_TIME:
-                    print(f"muito rapido: {datetime.datetime.now()}")
                     
                     self.logger.debug('\n'+'-'*50+'\n'+f"Token visto muito rapidamente. Retirando token da rede."+'\n'+'-'*50+'\n')
                     self.has_token = False
