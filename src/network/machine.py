@@ -371,7 +371,6 @@ class Machine:
         while not self.terminate_event.is_set():
             
             if self.has_token == False:
-                time.sleep(0.1)
                 
                 while time_waiting < self.TIMEOUT_VALUE and self.has_token == False:
                     time_waiting = (datetime.datetime.now() - self.last_token_time).total_seconds()
@@ -384,6 +383,7 @@ class Machine:
                     self.token = None
                     self.has_token = False
                     self.last_token_time = datetime.datetime.now()
+                    time_waiting = 0
                     self.logger.debug("Novo token adicionado à rede e passado adiante.")
                 
                 elif time_waiting < self.MINIMUM_TIME:
