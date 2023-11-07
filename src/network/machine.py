@@ -194,7 +194,7 @@ class Machine:
         packet_type = Packet.get_packet_type(data.decode()) # pega o tipo do pacote
         packet = TokenPacket() if packet_type == "1000" else DataPacket.create_header_from_string(data.decode()) # cria o pacote a partir do header recebido
         if isinstance(packet, DataPacket):
-            packet.crc = data.decode().split(":")[3] # pega o crc do pacote
+            packet.crc = int(data.decode().split(":")[3]) # pega o crc do pacote
         self.logger.debug('-'*50)
         self.logger.debug("Pacote recebido. Iniciando processamento...")
         return self.process_packet(packet) # processa o pacote
