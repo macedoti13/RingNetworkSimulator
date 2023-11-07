@@ -381,16 +381,17 @@ class Machine:
                     self.logger.debug('\n'+'-'*50+'\n'+f"| Token não visto por muito tempo. Gerando novo token. |"+'\n'+'-'*50+'\n')
                     self.generate_token()
                     self.send_packet(self.token)
+                    self.token = None
                     self.has_token = False
                     self.last_token_time = datetime.datetime.now()
-                    pass
+                    self.logger.debug("Novo token adicionado à rede e passado adiante.")
                 
                 elif time_waiting < self.MINIMUM_TIME:
                     
                     self.logger.debug('\n'+'-'*50+'\n'+f"| Token visto muito rapidamente. Retirando token da rede. |"+'\n'+'-'*50+'\n')
                     self.has_token = False
                     self.token = None
-                    pass
+                    self.logger.debug("Token removido da rede.")
                     
 
     def listen_for_packets(self):
