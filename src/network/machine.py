@@ -157,7 +157,9 @@ class Machine:
         # Gera erro na transmissão com chance error_probability
         if isinstance(packet, DataPacket) and random.random() < self.error_probability:
             if add_error_chance == True:
-                packet.crc = packet.crc[:-1] + ('0' if packet.crc[-1] == '1' else '1') # altera o crc do pacote
+                bit_to_invert = random.randint(0, 31) # escolhe um bit aleatório para inverter
+                mask = 1 << bit_to_invert # cria uma máscara para inverter o bit
+                packet.crc ^= mask # inverte o bit usando xor
                 packet.header = packet.create_header() # cria o header com o crc alterado
                 self.logger.debug(f"Erro introduzido no pacote com destino: {packet.destination_name}")
                 
@@ -184,6 +186,8 @@ class Machine:
         data, _ = self.socket.recvfrom(1024) # recebe o pacote
         packet_type = Packet.get_packet_type(data.decode()) # pega o tipo do pacote
         packet = TokenPacket() if packet_type == "1000" else DataPacket.create_header_from_string(data.decode()) # cria o pacote a partir do header recebido
+        if isinstance(packet, DataPacket):
+            packet.crc = data.decode().split(":")[3] # pega o crc do pacote
         self.logger.debug("Pacote recebido. Iniciando processamento...\n")
         return self.process_packet(packet) # processa o pacote
 
@@ -191,7 +195,7 @@ class Machine:
             
     @classmethod
     def create_machine_from_file(cls, file_path: str, local_ip: str = "127.0.0.1", local_port: int = 6000,
-                                 TIMEOUT_VALUE: int = 100, MINIMUM_TIME: int = 2):
+                                 TIMEOUT_VALUE: int = 100, MINIMUM_TIME: int = 2, error_probability: float = 0.2):
         """
         Cria uma máquina a partir de um arquivo de configuração.
         Os parametros local_ip e local_port são necessários para o comando bind do socket. Esse comando é necessário para que a máquina possa receber pacotes. 
@@ -208,7 +212,7 @@ class Machine:
             ip_and_port, nickname, time_token, has_token_str = [file.readline().strip() for _ in range(4)]
             has_token = has_token_str.lower() == "true"
         return cls(ip_and_port, nickname, time_token, has_token, local_ip=local_ip, local_port=local_port, 
-                   TIMEOUT_VALUE=TIMEOUT_VALUE, MINIMUM_TIME=MINIMUM_TIME)
+                   TIMEOUT_VALUE=TIMEOUT_VALUE, MINIMUM_TIME=MINIMUM_TIME, error_probability=error_probability)
 
     
     
@@ -296,12 +300,14 @@ class Machine:
                     
                 elif packet.error_control == "NACK": # se a mensagem não foi recebida com sucesso
                     
-                    self.logger.debug("Ocorreu um erro na mensagem")
-                    self.send_packet(packet) # reenvia o pacote se houver erro
+                    self.logger.debug("Ocorreu um erro na mensagem, controle de erro NACK.")
+                    self.logger.debug("Mantendo o pacote na fila e passando o token adiante...")
+                    self.send_packet(self.token)
+                    self.has_token = False
                     
                 elif packet.error_control == "maquinanaoexiste": # se a máquina não existe
                     
-                    self.logger.debug("Máquina não foi encontrada na rede.")
+                    self.logger.debug("Máquina não foi encontrada na rede. Removendo o pacote da fila...")
 
                     self.message_queue.pop(0) # tira da fila
                     self.logger.debug("Enviando o token...")
@@ -439,6 +445,7 @@ class Machine:
                     print(f"Pacote adicionado à fila para {destination_name} com a mensagem: {message}")
                 elif tipo == "1000":
                     new_packet = TokenPacket()
+                    self.last_token_time = datetime.datetime.now()
                     print(f"Token adicionado à fila.")
                 else:
                     print("Tipo de pacote inválido. Por favor, tente novamente.")
