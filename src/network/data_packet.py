@@ -26,18 +26,18 @@ class DataPacket(Packet):
         Returns:
             str: Cabecalho do pacote de dados.
         """        
-        return f"{self.id};{self.origin_name};{self.destination_name};{self.error_control};{self.crc};{self.message}"
+        return f"{self.id};{self.origin_name}:{self.destination_name}:{self.error_control}:{self.crc}:{self.message}"
     
     
-    def calculate_crc(self) -> str:
+    def calculate_crc(self) -> int:
         """
         Calcula o CRC da mensagem do pacote de dados. O CRC é um código de verificação de erros que é usado
         para verificar se a mensagem foi corrompida durante a transmissão.
 
         Returns:
-            str: CRC da mensagem do pacote de dados.
+            int: CRC da mensagem do pacote de dados.
         """        
-        return format(zlib.crc32(self.message.encode()) & 0xFFFFFFFF, '08x')
+        return zlib.crc32(self.message.encode())
     
     
     @classmethod
@@ -52,4 +52,5 @@ class DataPacket(Packet):
             DataPacket: Objeto DataPacket criado a partir do cabeçalho.
         """        
         header = header.split(";")
-        return DataPacket(header[1], header[2], header[3], header[5])
+        content = header[1].split(':')
+        return DataPacket(content[0], content[1], content[2], content[4])

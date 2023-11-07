@@ -190,7 +190,8 @@ class Machine:
          
             
     @classmethod
-    def create_machine_from_file(cls, file_path: str, local_ip: str = "127.0.0.1", local_port: int = 6000):
+    def create_machine_from_file(cls, file_path: str, local_ip: str = "127.0.0.1", local_port: int = 6000,
+                                 TIMEOUT_VALUE: int = 100, MINIMUM_TIME: int = 2):
         """
         Cria uma máquina a partir de um arquivo de configuração.
         Os parametros local_ip e local_port são necessários para o comando bind do socket. Esse comando é necessário para que a máquina possa receber pacotes. 
@@ -206,7 +207,8 @@ class Machine:
         with open(file_path, 'r') as file:
             ip_and_port, nickname, time_token, has_token_str = [file.readline().strip() for _ in range(4)]
             has_token = has_token_str.lower() == "true"
-        return cls(ip_and_port, nickname, time_token, has_token, local_ip=local_ip, local_port=local_port)
+        return cls(ip_and_port, nickname, time_token, has_token, local_ip=local_ip, local_port=local_port, 
+                   TIMEOUT_VALUE=TIMEOUT_VALUE, MINIMUM_TIME=MINIMUM_TIME)
 
     
     
