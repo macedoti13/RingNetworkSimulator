@@ -314,6 +314,8 @@ class Machine:
                     
                     self.logger.debug("Ocorreu um erro na mensagem, controle de erro NACK.")
                     self.logger.debug("Mantendo o pacote na fila e passando o token adiante...")
+                    self.message_queue[0].crc = self.message_queue[0].calculate_crc()
+                    self.message_queue[0].header = self.message_queue[0].create_header()
                     self.send_packet(self.token)
                     self.has_token = False
                     self.last_token_time = datetime.datetime.now()
