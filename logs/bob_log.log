@@ -1,0 +1,214 @@
+2023-11-08 15:34:52,645 - DEBUG - --------------------------------------------------
+2023-11-08 15:34:52,651 - DEBUG - Máquina bob iniciada.
+2023-11-08 15:34:52,658 - DEBUG - --------------------------------------------------
+
+
+2023-11-08 15:34:52,663 - DEBUG - --------------------------------------------------
+2023-11-08 15:34:52,669 - DEBUG - Máquina bob possui o token. Dormindo por 3 segundos...
+2023-11-08 15:34:52,675 - DEBUG - --------------------------------------------------
+
+
+2023-11-08 15:34:55,693 - DEBUG - --------------------------------------------------
+2023-11-08 15:34:55,700 - DEBUG - Enviando token...
+2023-11-08 15:34:55,711 - DEBUG - Token enviado.
+2023-11-08 15:34:55,717 - DEBUG - --------------------------------------------------
+
+
+2023-11-08 15:34:58,712 - DEBUG - --------------------------------------------------
+2023-11-08 15:34:58,712 - DEBUG - Pacote recebido. Iniciando processamento...
+2023-11-08 15:34:58,712 - DEBUG - Token recebido.
+2023-11-08 15:34:58,712 - DEBUG - Nenhuma mensagem para enviar, segurando o token por 3 segundos...
+2023-11-08 15:34:58,713 - DEBUG - --------------------------------------------------
+
+
+2023-11-08 15:35:01,724 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:01,730 - DEBUG - Enviando token...
+2023-11-08 15:35:01,742 - DEBUG - Token enviado.
+2023-11-08 15:35:01,749 - DEBUG - --------------------------------------------------
+
+
+2023-11-08 15:35:04,743 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:04,743 - DEBUG - Pacote recebido. Iniciando processamento...
+2023-11-08 15:35:04,743 - DEBUG - Token recebido.
+2023-11-08 15:35:04,743 - DEBUG - segurando o token por 3 segundos...
+2023-11-08 15:35:07,754 - DEBUG - enviando mensagem...
+2023-11-08 15:35:07,760 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:07,766 - DEBUG - Enviando pacote de dados...
+2023-11-08 15:35:07,778 - DEBUG - Pacote de dados enviado.
+2023-11-08 15:35:07,784 - DEBUG - --------------------------------------------------
+
+
+2023-11-08 15:35:07,784 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:07,790 - DEBUG - Pacote recebido. Iniciando processamento...
+2023-11-08 15:35:07,797 - DEBUG - Pacote de volta! Foi enviado por mim para ace
+2023-11-08 15:35:07,803 - DEBUG - Mensagem contida no pacote: oi ace
+2023-11-08 15:35:07,808 - DEBUG - Mensagem enviada foi recebida pelo destino!
+2023-11-08 15:35:07,815 - DEBUG - pacote removido da fila
+2023-11-08 15:35:07,821 - DEBUG - passando o token...
+2023-11-08 15:35:07,826 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:07,833 - DEBUG - Enviando token...
+2023-11-08 15:35:07,845 - DEBUG - Token enviado.
+2023-11-08 15:35:07,850 - DEBUG - --------------------------------------------------
+
+
+2023-11-08 15:35:10,845 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:10,846 - DEBUG - Pacote recebido. Iniciando processamento...
+2023-11-08 15:35:10,846 - DEBUG - Pacote para mim! Recebido de ace
+2023-11-08 15:35:10,846 - DEBUG - Mensagem recebida com sucesso! Conteúdo: oi bob
+2023-11-08 15:35:10,846 - DEBUG - Enviando pacote de volta...
+2023-11-08 15:35:10,846 - DEBUG - --------------------------------------------------
+
+2023-11-08 15:35:10,846 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:10,846 - DEBUG - Enviando pacote de dados...
+2023-11-08 15:35:10,847 - DEBUG - Pacote de dados enviado.
+2023-11-08 15:35:10,847 - DEBUG - --------------------------------------------------
+
+
+2023-11-08 15:35:10,848 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:10,848 - DEBUG - Pacote recebido. Iniciando processamento...
+2023-11-08 15:35:10,848 - DEBUG - Token recebido.
+2023-11-08 15:35:10,848 - DEBUG - Nenhuma mensagem para enviar, segurando o token por 3 segundos...
+2023-11-08 15:35:10,848 - DEBUG - --------------------------------------------------
+
+
+2023-11-08 15:35:13,855 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:13,861 - DEBUG - Enviando token...
+2023-11-08 15:35:13,874 - DEBUG - Token enviado.
+2023-11-08 15:35:13,880 - DEBUG - --------------------------------------------------
+
+
+2023-11-08 15:35:16,874 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:16,874 - DEBUG - Pacote recebido. Iniciando processamento...
+2023-11-08 15:35:16,874 - DEBUG - Token recebido.
+2023-11-08 15:35:16,874 - DEBUG - Nenhuma mensagem para enviar, segurando o token por 3 segundos...
+2023-11-08 15:35:16,875 - DEBUG - --------------------------------------------------
+
+
+2023-11-08 15:35:19,886 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:19,892 - DEBUG - Enviando token...
+2023-11-08 15:35:19,905 - DEBUG - Token enviado.
+2023-11-08 15:35:19,911 - DEBUG - --------------------------------------------------
+
+
+2023-11-08 15:35:22,904 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:22,904 - DEBUG - Pacote recebido. Iniciando processamento...
+2023-11-08 15:35:22,904 - DEBUG - Token recebido.
+2023-11-08 15:35:22,905 - DEBUG - segurando o token por 3 segundos...
+2023-11-08 15:35:25,916 - DEBUG - enviando mensagem...
+2023-11-08 15:35:25,922 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:25,927 - DEBUG - Enviando pacote de dados...
+2023-11-08 15:35:25,933 - DEBUG - Erro introduzido no pacote com destino: ace
+2023-11-08 15:35:25,945 - DEBUG - Pacote de dados enviado.
+2023-11-08 15:35:25,952 - DEBUG - --------------------------------------------------
+
+
+2023-11-08 15:35:25,965 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:25,971 - DEBUG - Pacote recebido. Iniciando processamento...
+2023-11-08 15:35:25,977 - DEBUG - Pacote de volta! Foi enviado por mim para ace
+2023-11-08 15:35:25,982 - DEBUG - Mensagem contida no pacote: vamos tomar um cafe
+2023-11-08 15:35:25,989 - DEBUG - Ocorreu um erro na mensagem, controle de erro NACK.
+2023-11-08 15:35:25,995 - DEBUG - Mantendo o pacote na fila e passando o token adiante...
+2023-11-08 15:35:26,000 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:26,007 - DEBUG - Enviando token...
+2023-11-08 15:35:26,020 - DEBUG - Token enviado.
+2023-11-08 15:35:26,026 - DEBUG - --------------------------------------------------
+
+
+2023-11-08 15:35:29,020 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:29,020 - DEBUG - Pacote recebido. Iniciando processamento...
+2023-11-08 15:35:29,020 - DEBUG - Token recebido.
+2023-11-08 15:35:29,020 - DEBUG - segurando o token por 3 segundos...
+2023-11-08 15:35:32,030 - DEBUG - enviando mensagem...
+2023-11-08 15:35:32,036 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:32,042 - DEBUG - Enviando pacote de dados...
+2023-11-08 15:35:32,049 - DEBUG - Erro introduzido no pacote com destino: ace
+2023-11-08 15:35:32,061 - DEBUG - Pacote de dados enviado.
+2023-11-08 15:35:32,067 - DEBUG - --------------------------------------------------
+
+
+2023-11-08 15:35:32,079 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:32,086 - DEBUG - Pacote recebido. Iniciando processamento...
+2023-11-08 15:35:32,091 - DEBUG - Pacote de volta! Foi enviado por mim para ace
+2023-11-08 15:35:32,098 - DEBUG - Mensagem contida no pacote: vamos tomar um cafe
+2023-11-08 15:35:32,104 - DEBUG - Ocorreu um erro na mensagem, controle de erro NACK.
+2023-11-08 15:35:32,111 - DEBUG - Mantendo o pacote na fila e passando o token adiante...
+2023-11-08 15:35:32,116 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:32,122 - DEBUG - Enviando token...
+2023-11-08 15:35:32,133 - DEBUG - Token enviado.
+2023-11-08 15:35:32,133 - DEBUG - --------------------------------------------------
+
+
+2023-11-08 15:35:35,134 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:35,135 - DEBUG - Pacote recebido. Iniciando processamento...
+2023-11-08 15:35:35,135 - DEBUG - Token recebido.
+2023-11-08 15:35:35,135 - DEBUG - segurando o token por 3 segundos...
+2023-11-08 15:35:38,146 - DEBUG - enviando mensagem...
+2023-11-08 15:35:38,153 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:38,158 - DEBUG - Enviando pacote de dados...
+2023-11-08 15:35:38,165 - DEBUG - Erro introduzido no pacote com destino: ace
+2023-11-08 15:35:38,177 - DEBUG - Pacote de dados enviado.
+2023-11-08 15:35:38,183 - DEBUG - --------------------------------------------------
+
+
+2023-11-08 15:35:38,196 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:38,202 - DEBUG - Pacote recebido. Iniciando processamento...
+2023-11-08 15:35:38,209 - DEBUG - Pacote de volta! Foi enviado por mim para ace
+2023-11-08 15:35:38,215 - DEBUG - Mensagem contida no pacote: vamos tomar um cafe
+2023-11-08 15:35:38,223 - DEBUG - Ocorreu um erro na mensagem, controle de erro NACK.
+2023-11-08 15:35:38,223 - DEBUG - Mantendo o pacote na fila e passando o token adiante...
+2023-11-08 15:35:38,223 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:38,223 - DEBUG - Enviando token...
+2023-11-08 15:35:38,223 - DEBUG - Token enviado.
+2023-11-08 15:35:38,223 - DEBUG - --------------------------------------------------
+
+
+2023-11-08 15:35:41,232 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:41,232 - DEBUG - Pacote recebido. Iniciando processamento...
+2023-11-08 15:35:41,232 - DEBUG - Token recebido.
+2023-11-08 15:35:41,232 - DEBUG - segurando o token por 3 segundos...
+2023-11-08 15:35:44,244 - DEBUG - enviando mensagem...
+2023-11-08 15:35:44,250 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:44,256 - DEBUG - Enviando pacote de dados...
+2023-11-08 15:35:44,268 - DEBUG - Pacote de dados enviado.
+2023-11-08 15:35:44,274 - DEBUG - --------------------------------------------------
+
+
+2023-11-08 15:35:44,287 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:44,293 - DEBUG - Pacote recebido. Iniciando processamento...
+2023-11-08 15:35:44,299 - DEBUG - Pacote de volta! Foi enviado por mim para ace
+2023-11-08 15:35:44,306 - DEBUG - Mensagem contida no pacote: vamos tomar um cafe
+2023-11-08 15:35:44,312 - DEBUG - Mensagem enviada foi recebida pelo destino!
+2023-11-08 15:35:44,318 - DEBUG - pacote removido da fila
+2023-11-08 15:35:44,325 - DEBUG - passando o token...
+2023-11-08 15:35:44,331 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:44,338 - DEBUG - Enviando token...
+2023-11-08 15:35:44,349 - DEBUG - Token enviado.
+2023-11-08 15:35:44,356 - DEBUG - --------------------------------------------------
+
+
+2023-11-08 15:35:47,349 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:47,350 - DEBUG - Pacote recebido. Iniciando processamento...
+2023-11-08 15:35:47,350 - DEBUG - Token recebido.
+2023-11-08 15:35:47,350 - DEBUG - Nenhuma mensagem para enviar, segurando o token por 3 segundos...
+2023-11-08 15:35:47,350 - DEBUG - --------------------------------------------------
+
+
+2023-11-08 15:35:50,361 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:50,368 - DEBUG - Enviando token...
+2023-11-08 15:35:50,380 - DEBUG - Token enviado.
+2023-11-08 15:35:50,386 - DEBUG - --------------------------------------------------
+
+
+2023-11-08 15:35:53,380 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:53,380 - DEBUG - Pacote recebido. Iniciando processamento...
+2023-11-08 15:35:53,380 - DEBUG - Token recebido.
+2023-11-08 15:35:53,380 - DEBUG - Nenhuma mensagem para enviar, segurando o token por 3 segundos...
+2023-11-08 15:35:53,380 - DEBUG - --------------------------------------------------
+
+
+2023-11-08 15:35:56,386 - DEBUG - --------------------------------------------------
+2023-11-08 15:35:56,386 - DEBUG - Enviando token...
+2023-11-08 15:35:56,386 - DEBUG - Token enviado.
+2023-11-08 15:35:56,387 - DEBUG - --------------------------------------------------
+
+
